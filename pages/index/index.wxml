@@ -1,0 +1,31 @@
+<!-- pages/index/index.wxml -->
+<view class="container">
+    <view class="header">
+        <image class="plus" src="../../assets/plus.png" />
+        <input class="new-todo" value="{{ input }}" placeholder="添加待办事项..." focus="{{true}}" bindinput="inputChangeHandle" bindconfirm="addTodoHandle" />
+    </view>
+    <block wx:if="{{ todos.length }}">
+        <view class="todos">
+            <!-- List items should get the class `completed` when marked as completed -->
+            <!-- 列表项在标记为已完成时应使类“已完成” -->
+            <view class="item{{ item.completed ? ' completed' : '' }}" wx:for="{{ todos }}" wx:key="{{ index }}" bindtap="toggleTodoHandle" data-index="{{ index }}">
+                <!-- completed: success, todo: circle -->
+                <icon class="checkbox" type="{{ item.completed ? 'success' : 'circle' }}" />
+                <text class="name">{{ item.name }}</text>
+                <icon class="remove" type="clear" size="16" catchtap="removeTodoHandle" data-index="{{ index }}" />
+            </view>
+        </view>
+        <view class="footer">
+            <text class="btn" bindtap="toggleAllHandle">全选</text>
+            <!-- <text wx:if="{{ leftCount }}">{{ leftCount }} {{ leftCount === 1 ? 'item' : 'items' }} left</text> -->
+            <text wx:if="{{ leftCount }}">{{ leftCount }} 个 代办事项</text>
+            <text class="btn" wx:if="{{ todos.length > leftCount }}" bindtap="clearCompletedHandle">清空</text>
+        </view>
+    </block>
+    <block wx:else>
+        <view class="empty">
+            <text class="title">高兴吧！</text>
+            <text class="content">没有更多的待办事项了</text>
+        </view>
+    </block>
+</view>
